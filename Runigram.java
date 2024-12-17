@@ -205,8 +205,47 @@ public class Runigram {
 	 * of the source image.
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) {
-		//// Replace this comment with your code
+		// Step 1: Resize the target image to match the dimensions of the source image
+		target = scaled(target, source[0].length, source.length);
+	
+		// Step 2: Animate the morphing process
+		for (int step = 0; step < n; step++) {
+			// Calculate the interpolation factor (t) for this step
+			double t = (double) step / (n - 1);
+	
+			// Create a new image to store the morphed result
+			Color[][] morphedImage = new Color[source.length][source[0].length];
+	
+			// Step 3: Interpolate each pixel between the source and target images
+			for (int i = 0; i < source.length; i++) {
+				for (int j = 0; j < source[i].length; j++) {
+					// Interpolate the RGB values for each pixel
+					int r = (int) ((1 - t) * source[i][j].getRed() + t * target[i][j].getRed());
+					int g = (int) ((1 - t) * source[i][j].getGreen() + t * target[i][j].getGreen());
+					int b = (int) ((1 - t) * source[i][j].getBlue() + t * target[i][j].getBlue());
+	
+					// Ensure the RGB values are within valid bounds (0-255)
+					r = Math.min(Math.max(r, 0), 255);
+					g = Math.min(Math.max(g, 0), 255);
+					b = Math.min(Math.max(b, 0), 255);
+	
+					// Store the morphed color in the new image
+					morphedImage[i][j] = new Color(r, g, b);
+				}
+			}
+	
+			// Step 4: Display the morphed image using StdDraw
+			display(morphedImage);
+	
+			// Optionally, add a delay to make the animation visible
+			try {
+				Thread.sleep(100); // Adjust the speed of the animation
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
 	
 	/** Creates a canvas for the given image. */
 	public static void setCanvas(Color[][] image) {
