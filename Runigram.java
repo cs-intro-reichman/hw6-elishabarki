@@ -108,13 +108,14 @@ public class Runigram {
 	// lum = 0.299 * r + 0.587 * g + 0.114 * b, and returns a Color object consisting
 	// the three values r = lum, g = lum, b = lum.
 	private static Color luminance(Color pixel) {
-			int r = pixel.getRed();
-			int g = pixel.getGreen();
-			int b = pixel.getBlue();
-			int lum = (int) Math.round(0.299 * r + 0.587 * g + 0.114 * b);
-			lum = Math.max(0, Math.min(255, lum));
-			return new Color(lum, lum, lum);
+		int r = pixel.getRed();
+		int g = pixel.getGreen();
+		int b = pixel.getBlue();
+		int lum = (int) (0.299 * r + 0.587 * g + 0.114 * b);
+		lum = Math.max(0, Math.min(255, lum));
+		return new Color(lum, lum, lum);
 	}
+	
 	
 	/**
 	 * Returns an image which is the grayscaled version of the given image.
@@ -123,16 +124,18 @@ public class Runigram {
 		int numRows = image.length;
 		int numCols = image[0].length;
 		Color[][] grayImage = new Color[numRows][numCols];
-		
+	
+		// Iterate over all pixels and apply the grayscale conversion
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
+				// Apply luminance to each pixel
 				grayImage[i][j] = luminance(image[i][j]);
 			}
 		}
-		
-		return grayImage;
-	}	
 	
+		return grayImage;
+	}
+
 	/**
 	 * Returns an image which is the scaled version of the given image. 
 	 * The image is scaled (resized) to have the given width and height.
